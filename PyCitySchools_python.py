@@ -230,4 +230,10 @@ per_school_summary_df = per_school_summary_df[per_school_column_reorder]
 per_school_summary_df.head()                                                                                                                                                                                     
 
 # %% [markdown]
-# ###Find out highest and lowest perforance sort_values()
+# ###Find out highest and lowest performance based on overall passing, sort_values()
+# %%
+top_schools_df = per_school_summary_df.sort_values(['% Overall Passing'], ascending = False)
+top_schools_df.head(5)
+bottom_schools_df = per_school_summary_df.sort_values(['% Overall Passing'])
+bottom_schools_df.head()
+# %%
