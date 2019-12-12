@@ -2,12 +2,12 @@
 # To add a new markdown cell, type '# %% [markdown]'
 # %% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
 # ms-python.python added
-#import os
-#try:
-	#os.chdir(os.path.join(os.getcwd(), 'School_District_Analysis'))
-	#print(os.getcwd())
-#except:
-	#pass
+import os
+try:
+	os.chdir(os.path.join(os.getcwd(), 'School_District_Analysis'))
+	print(os.getcwd())
+except:
+	pass
 # %%
 #use os.path.join(), indirectly load file
 #use Pandas.read_csv to read (without open files) into DataFrame
@@ -26,9 +26,9 @@ student_data_df = pd.read_csv(student_data_to_load)
 
 # %%
 
-print(student_data_df.head())
 student_data_df.tail(10)
 student_data_df.describe()
+student_data_df.head()
 
 # %%
 school_data_df.head()
@@ -236,4 +236,44 @@ top_schools_df = per_school_summary_df.sort_values(['% Overall Passing'], ascend
 top_schools_df.head(5)
 bottom_schools_df = per_school_summary_df.sort_values(['% Overall Passing'])
 bottom_schools_df.head()
+# %% [markdown]
+# ### grade-level metrics, groupby school_name as index, and grade as columns. the value would like be ave score
+
 # %%
+# use school_data_complete_df dataframe get grade-level information and score series
+school_data_complete_df.head()
+# filter different grade, create DF for each grade level
+complete_9th_filtered_df = school_data_complete_df[(school_data_complete_df.grade == '9th')]
+complete_10th_filtered_df = school_data_complete_df[(school_data_complete_df.grade == '10th')]
+complete_11th_filtered_df = school_data_complete_df[(school_data_complete_df.grade == '11th')]
+complete_12th_filtered_df = school_data_complete_df[(school_data_complete_df.grade == '12th')]
+
+# %%
+# groupby and get avg scores
+grade9th_math_school_grp_Series = complete_9th_filtered_df.groupby(['school_name']).mean()['math_score']
+grade10th_math_school_grp_Series = complete_10th_filtered_df.groupby(['school_name']).mean()['math_score']
+grade11th_math_school_grp_Series = complete_11th_filtered_df.groupby(['school_name']).mean()['math_score']
+grade12th_math_school_grp_Series = complete_12th_filtered_df.groupby(['school_name']).mean()['math_score']
+
+grade9th_reading_school_grp_Series = complete_9th_filtered_df.groupby(['school_name']).mean()['reading_score']
+grade10th_reading_school_grp_Series = complete_10th_filtered_df.groupby(['school_name']).mean()['reading_score']
+grade11th_reading_school_grp_Series = complete_11th_filtered_df.groupby(['school_name']).mean()['reading_score']
+grade12th_reading_school_grp_Series = complete_12th_filtered_df.groupby(['school_name']).mean()['reading_score']
+
+#grade9th_reading_school_grp_Series 
+
+# %%
+grade_math_summary_df = pd.DataFrame({'9th':grade9th_math_school_grp_Series.map('{:.1f}'.format),
+                            '10th':grade10th_math_school_grp_Series.map('{:.1f}'.format),
+                            '11th':grade11th_math_school_grp_Series.map('{:.1f}'.format),
+                            '12th':grade12th_math_school_grp_Series.map('{:.1f}'.format)})
+# remove index column's name
+grade_math_summary_df.index.name = None
+grade_math_summary_df
+# %%
+grade_reading_summary_df = pd.DataFrame({'9th':grade9th_reading_school_grp_Series.map('{:.1f}'.format),
+                            '10th':grade10th_reading_school_grp_Series.map('{:.1f}'.format),
+                            '11th':grade11th_reading_school_grp_Series.map('{:.1f}'.format),
+                            '12th':grade12th_reading_school_grp_Series.map('{:.1f}'.format)})
+grade_reading_summary_df.index.name = None                            
+grade_reading_summary_df
