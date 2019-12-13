@@ -1,14 +1,14 @@
 # To add a new cell, type '# %%'
 # To add a new markdown cell, type '# %% [markdown]'
-# %% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
-# ms-python.python added
+# %% 
 import os
 try:
 	os.chdir(os.path.join(os.getcwd(), 'School_District_Analysis'))
 	print(os.getcwd())
 except:
 	pass
-
+# %% [markdown]
+# ## Load the csv file and Read the raw data
 
 # %%
 import os
@@ -29,7 +29,7 @@ student_data_df.head()
 school_data_df.head()
 
 # %% [markdown]
-# ##Clean student_names, remove inappropriate prefixes and suffixes
+# ## Clean student_names, remove inappropriate prefixes and suffixes
 
 # %%
 prefixes_suffixes = ["Dr. ", "Mr. ","Ms. ", "Mrs. ", "Miss ", " MD", " DDS", " DVM", " PhD"]
@@ -39,7 +39,7 @@ for word in prefixes_suffixes:
 student_data_df.head(10)
 
 # %% [markdown]
-# #TABLE No.1: A high level snapshot of district's key metircs
+# # TABLE No.1: A high level snapshot of district's key metircs
 # ## district_summary_df
 
 # %%
@@ -71,7 +71,7 @@ overall_passing_percentage = (passing_math_percentage + passing_reading_percenta
 print(f'Overall pass Rate:{overall_passing_percentage:.2f}%')
 
 # %% [markdown]
-# ### a summary new Dataframe to collect all key metrics generated 
+# ### A summary new Dataframe to collect all key metrics generated 
 
 # %%
 district_summary_df = pd.DataFrame([{"Total Schools": school_count,
@@ -99,7 +99,7 @@ district_summary_df["% Overall Passing"] = district_summary_df["% Overall Passin
 district_summary_df
 
 # %% [markdown]
-# #TABLE No.2: overview of key metrics for each school 
+# # TABLE No.2: overview of key metrics for each school 
 # ## per_school_summary_df
 
 # %%
@@ -153,16 +153,16 @@ per_school_summary_df = per_school_summary_df[per_school_column_reorder]
 per_school_summary_df.head()                                                                                                                                                                                     
 
 # %% [markdown]
-# #TABLE No.3 Top 5 and bottom 5 performing schools, based on the overall passing rate
-# ##use sort_values()
-# ##top_schools_df and bottom_schools_df
+# # TABLE No.3 Top 5 and bottom 5 performing schools, based on the overall passing rate
+# ## use sort_values()
+# ## top_schools_df and bottom_schools_df
 # %%
 top_schools_df = per_school_summary_df.sort_values(['% Overall Passing'], ascending = False)
 top_schools_df.head(5)
 bottom_schools_df = per_school_summary_df.sort_values(['% Overall Passing'])
 bottom_schools_df.head()
 # %% [markdown]
-# #TABLE No.4: The average math score received by students in each grade level at each school
+# # TABLE No.4: The average math score received by students in each grade level at each school
 # ## grade_math_summary_df
 
 # %%
@@ -194,7 +194,7 @@ grade_math_summary_df = pd.DataFrame({'9th':grade9th_math_school_grp_Series.map(
 grade_math_summary_df.index.name = None
 grade_math_summary_df
 # %% [markdown]
-# #TABLE No.5: The average reading score received by students in each grade level at each school
+# # TABLE No.5: The average reading score received by students in each grade level at each school
 # ## grade_reading_summary_df
 # %%
 grade_reading_summary_df = pd.DataFrame({'9th':grade9th_reading_school_grp_Series.map('{:.1f}'.format),
@@ -205,8 +205,8 @@ grade_reading_summary_df.index.name = None
 grade_reading_summary_df
 
 # %% [markdown] 
-# #TABLE No.6: School performance based on the budget per student
-# ##use bins and cut() function to get spending_school_summary_df
+# # TABLE No.6: School performance based on the budget per student
+# ## use bins and cut() function to get spending_school_summary_df
 # %%
 spending_bins = [0,585,630,645,675]
 group_names = ["<$584", "$585-629", "$630-644", "$645-675"]
@@ -235,8 +235,8 @@ spending_school_summary_df
 
 
 # %% [markdown] 
-# #TABLE No.7: School performance based on the school size
-# ##size_school_summary_df
+# # TABLE No.7: School performance based on the school size
+# ## size_school_summary_df
 
 # %%
 size_bins = [0, 1000, 2000, 5000]
@@ -262,8 +262,8 @@ size_school_summary_df = pd.DataFrame({"Average Math Score" : sizeBins_math_scor
 size_school_summary_df
 
 # %% [markdown] 
-# #TABLE No.8: School performance based on the type of school
-# ##type_school_summary_df
+# # TABLE No.8: School performance based on the type of school
+# ## type_school_summary_df
 # %%
 type_math_scores_Series = per_school_summary_df.groupby(["School Type"]).mean()["Average Math Score"]
 type_reading_scores_Series = per_school_summary_df.groupby(["School Type"]).mean()["Average Reading Score"]
