@@ -277,3 +277,67 @@ grade_reading_summary_df = pd.DataFrame({'9th':grade9th_reading_school_grp_Serie
                             '12th':grade12th_reading_school_grp_Series.map('{:.1f}'.format)})
 grade_reading_summary_df.index.name = None                            
 grade_reading_summary_df
+
+# %% [markdown] 
+# ## School performance based on the budget per student
+# #### spending bins as index
+# #### find how does budget per student affect the school performance
+# %%
+#per_school_capita_Series is Series that the budget per student for each school
+per_school_capita_Series.describe()
+
+# %% 
+# pd.cut() 
+#equally cut! but not group scholls fair, to fairly distribution we manually adjest bins edge
+#cutted_capita_categorical_S = pd.cut(per_school_capita_Series, 4, precision=0) 
+
+spending_bins = [0,585,630,645,675]
+group_names = ["<$584", "$585-629", "$630-644", "$645-675"]
+cutted_capita_categorical_S = pd.cut(per_school_capita_Series,spending_bins, labels=group_names)
+cutted_capita_categorical_S
+
+
+# %%
+# check the bins count
+per_school_capita_Series_grp = per_school_capita_Series.groupby(cutted_capita_categorical_S).count()
+per_school_capita_Series_grp
+#use Seires.value_counts() easiler !!
+cutted_capita_categorical_S.value_counts()
+
+# %%
+# add cutted series into same dataframe, then groupby series and count()
+per_school_summary_df['Spending Ranges (Per Student)'] = pd.Series(cutted_capita_categorical_S)
+per_school_summary_df
+
+# %%
+spending_math_scores_Series = per_school_summary_df.groupby(['Spending Ranges (Per Student)'])['Average Math Score'].agg('mean')
+spending_reading_scores_Series = per_school_summary_df.groupby(['Spending Ranges (Per Student)'])['Average Reading Score'].agg('mean')
+spending_passing_math_Series =per_school_summary_df.groupby(['Spending Ranges (Per Student)'])['% Passing Math'].agg('mean')
+spending_passing_reading_Series =per_school_summary_df.groupby(['Spending Ranges (Per Student)'])['% Passing Reading'].agg('mean')
+Spending_overall_passing_percentage_Series = (spending_passing_math_Series + spending_passing_reading_Series) /2
+
+spending_school_summary_df = pd.DataFrame({"Average Math Score" : spending_math_scores_Series.map('{:.1f}'.format),
+          "Average Reading Score": spending_reading_scores_Series.map('{:.1f}'.format),
+          "% Passing Math": spending_passing_math_Series.map('{:.0f}'.format),
+          "% Passing Reading": spending_passing_reading_Series.map('{:.0f}'.format),
+          "% Overall Passing": Spending_overall_passing_percentage_Series.map('{:.0f}'.format)})
+spending_school_summary_df
+
+
+# %% [markdown]
+# ## School performance based on the school size
+
+# %%
+per_school_summary_df['Total Students'].describe()
+
+
+# %%
+size_bins = [0, 1650, 2500, 4500,5000]
+size_bins_labels = ['a','b','c','d']
+cutted_size_categorical_S = pd.cut( per_school_summary_df['Total Students'],size_bins, labels= size_bins_labels)
+per_school_summary_df['Students size Ranges'] = pd.Series(cutted_size_categorical_S)
+#per_school_summary_df
+
+cutted_size_categorical_S.value_counts()
+
+# %%
