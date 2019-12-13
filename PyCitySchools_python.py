@@ -328,10 +328,6 @@ spending_school_summary_df
 # ## School performance based on the school size
 
 # %%
-per_school_summary_df['Total Students'].describe()
-
-
-# %%
 size_bins = [0, 1000, 2000, 5000]
 size_bins_labels = ['Small(<1000)','Medium (1000-2000)','Large (2000-5000)']
 cutted_size_categorical_S = pd.cut( per_school_summary_df['Total Students'],size_bins, labels= size_bins_labels)
@@ -356,3 +352,19 @@ size_school_summary_df = pd.DataFrame({"Average Math Score" : sizeBins_math_scor
           "% Passing Reading": sizeBins_passing_reading_Series.map('{:.0f}'.format),
           "% Overall Passing": sizeBins_overall_passing_percentage_Series.map('{:.0f}'.format)})
 size_school_summary_df
+
+# %% [markdown]
+# ## School performance based on the school type
+# %%
+type_math_scores_Series = per_school_summary_df.groupby(["School Type"]).mean()["Average Math Score"]
+type_reading_scores_Series = per_school_summary_df.groupby(["School Type"]).mean()["Average Reading Score"]
+type_passing_math_Series = per_school_summary_df.groupby(["School Type"]).mean()["% Passing Math"]
+type_passing_reading_Series = per_school_summary_df.groupby(["School Type"]).mean()["% Passing Reading"]
+type_overall_passing_Series = (type_passing_math_Series + type_passing_reading_Series) / 2
+
+type_school_summary_df = pd.DataFrame({"Average Math Score" : type_math_scores_Series.map('{:.1f}'.format),
+          "Average Reading Score": type_reading_scores_Series.map('{:.1f}'.format),
+          "% Passing Math": type_passing_math_Series.map('{:.0f}'.format),
+          "% Passing Reading": type_passing_reading_Series.map('{:.0f}'.format),
+          "% Overall Passing": type_overall_passing_Series.map('{:.0f}'.format)})
+type_school_summary_df
