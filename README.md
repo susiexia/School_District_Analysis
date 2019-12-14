@@ -26,6 +26,7 @@ After removing the ninth-grade math and reading scores from Thomas High School, 
 
 ### Tables
 
+<<<<<<< HEAD
 There are 20 Analysis tables are in the picture folder. Attached are two examples. 
 
 1. The *Thomas_9th_info* is information about descriptive statistic before removing the ninth-grade math and reading scores from Thomas High School.
@@ -36,4 +37,10 @@ There are 20 Analysis tables are in the picture folder. Attached are two example
 
 2. The *final_compare_summary* is the two summary tables groupby each school, comparing between before and after removing incorrect data.
 
+=======
+All compared analysis tables are in the picture folder. Attached are two examples:
+-----------------------
+![Thomas_9th_info](/Picture/Thomas_9th_info.JPG)
+-----------------------------------
+>>>>>>> 94181375c6df163a2659efb02840339e3b29a5f1
 ![final_compare_summary](/Picture/final_compare_summary.JPG)
