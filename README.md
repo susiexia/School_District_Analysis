@@ -25,7 +25,8 @@ After removing the ninth-grade math and reading scores from Thomas High School, 
 
 ### Tables
 
-All compared analysis tables are in picture folder.
+All compared analysis tables are in the picture folder. Attached are two examples:
 -----------------------
 ![Thomas_9th_info](/Picture/Thomas_9th_info.JPG)
+-----------------------------------
 ![final_compare_summary](/Picture/final_compare_summary.JPG)
